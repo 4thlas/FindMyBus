@@ -19,4 +19,11 @@ $(document).ready(function(){
 
     getLinesInfo().then(data => console.log(data));
 
+    const map = L.map('map').setView([53.428, 14.552], 13);
+
+    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+        attribution: '&copy; OpenStreetMap contributors',
+        maxZoom: 19,
+    }).addTo(map);
+    
 });

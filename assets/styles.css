@@ -1,6 +1,63 @@
+:root{
+    --theme-gradient: linear-gradient(45deg, #ff3300, #ffe600);
+    --gray: #0b0c0f;
+
+    --font-small: 15px;
+    --font-default: 25px;
+    --font-large: 35px;
+}
+
 html, body{
     margin: 0;
     padding: 0;
+    font-family: "Montserrat";
+    font-size: var(--font-default);
+}
+
+.text{
+    color: white;
+}
+.text.small{
+    font-size: var(--font-small);
+}
+.text.large{
+    font-size: var(--font-large);
+}
+.text.bold{
+    font-weight: bold;
+}
+.text.special{
+    background: var(--theme-gradient);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+.gradient-border{
+    border: 3px solid transparent;
+    border-radius: 12px;
+    background: linear-gradient(var(--gray), var(--gray)) padding-box,
+                var(--theme-gradient)
+                border-box;
+    background-clip: padding-box, border-box;
+}
+
+select{
+    background-color: var(--gray);
+    color: white;
+    border: none;
+    font-family: "Montserrat";
+    cursor: pointer;
+}
+select:active{
+    border: none;
+}
+
+option{
+    background-color: var(--gray);
+    
+}
+option:hover{
+    background-color: var(--gray);
 }
 
 #main-div{
@@ -10,16 +67,40 @@ html, body{
     flex-direction: column
 }
 
+#line-select-box{
+    position: fixed;
+    top: 10px;
+    left: 50%;
+    transform: translate(-50%);
+    z-index: 9999;
+
+    width: 30vw;
+    height: fit-content;
+    min-height: 100px;
+    background-color: var(--gray);
+
+    padding: 15px;
+    box-sizing: border-box;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 20px;
+}
+
+#line-select{
+    width: 100%;
+    height: 80px;
+}
+
 #map{
     width: 100%;
     height: 50%;
-    background-color: red;
 }
 
 #stats{
     width: 100%;
     height: 50%;
-
     display: flex;
 }
 
@@ -27,10 +108,37 @@ html, body{
     width: 50%;
     height: 100%;
     background-color: blue;
+
+    padding: 10px;
+    box-sizing: border-box;
 }
 
 #stats-chart{
     width: 50%;
     height: 100%;
     background-color: green;
+
+    padding: 10px;
+    box-sizing: border-box;
+}
+
+@media (max-width: 600px) {
+    #line-select-box{
+        position: static;
+        transform: none;
+        width: 100vw;
+        border: none;
+        border-radius: 0;
+    }
+    #map {
+        height: 40%;
+    }
+    #stats{
+        flex-direction: column;
+        height: 60%;
+    }
+    #stats-table, #stats-chart{
+        width: 100%;
+        height: 100%;
+    }
 }
