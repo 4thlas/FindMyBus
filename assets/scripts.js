@@ -1,4 +1,4 @@
-$(document).ready(function(){
+$(document).ready(async function(){
 
     async function getLinesInfo()
     {
@@ -17,8 +17,46 @@ $(document).ready(function(){
         }
     }
 
-    getLinesInfo().then(data => console.log(data));
+    async function getVehiclesInfo()
+    {
+        try
+        {
+            const response = await fetch('https://www.zditm.szczecin.pl/api/v1/vehicles');
+            if (!response.ok) throw new Error('Response is invalid');
 
+            const data = await response.json();
+            return data;
+        }
+        catch(error)
+        {
+            console.error(error);
+            return 1;
+        }
+    }
+
+    function setup(lines_data)
+    {
+        let select = $("#line-select");
+        let table = $("#table-body");
+
+        lines_data.forEach(line => {
+            select.append('<option value="'+ line.number +'">'+ line.number +'</option>');
+        });
+    }
+
+    $("#line-select").change(function(){$("#line-select-form").submit();});
+
+
+    let lines = await getLinesInfo();
+    let vehicles = await getVehiclesInfo();
+    lines = lines.data;
+    vehicles = vehicles.data;
+
+    console.log(lines);
+    console.log(vehicles);
+
+    setup(lines);
+    
     const map = L.map('map').setView([53.428, 14.552], 13);
 
     L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {

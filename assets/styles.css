@@ -1,6 +1,7 @@
 :root{
     --theme-gradient: linear-gradient(45deg, #ff3300, #ffe600);
-    --gray: #0b0c0f;
+    --gray: #202127;
+    --black: #09090c;
 
     --font-small: 15px;
     --font-default: 25px;
@@ -39,6 +40,27 @@ html, body{
                 var(--theme-gradient)
                 border-box;
     background-clip: padding-box, border-box;
+}
+
+
+/* width */
+::-webkit-scrollbar {
+  width: 10px;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+  background: #f1f1f1;
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+  background: var(--theme-gradient);
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+  background: var(--theme-gradient);
 }
 
 select{
@@ -104,10 +126,10 @@ option:hover{
     display: flex;
 }
 
-#stats-table{
+#line-select-div{
     width: 50%;
     height: 100%;
-    background-color: blue;
+    background-color: var(--black);
 
     padding: 10px;
     box-sizing: border-box;
@@ -116,7 +138,7 @@ option:hover{
 #stats-chart{
     width: 50%;
     height: 100%;
-    background-color: green;
+    background-color: var(--gray);
 
     padding: 10px;
     box-sizing: border-box;
@@ -128,6 +150,7 @@ option:hover{
         transform: none;
         width: 100vw;
         border: none;
+        background-color: var(--black);
         border-radius: 0;
     }
     #map {
@@ -137,8 +160,8 @@ option:hover{
         flex-direction: column;
         height: 60%;
     }
-    #stats-table, #stats-chart{
+    #line-select-div, #stats-chart{
         width: 100%;
-        height: 100%;
+        height: 500px !important; /* TODO */
     }
 }

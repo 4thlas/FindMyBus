@@ -8,28 +8,22 @@
         <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
         <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap">
         <link href="https://unpkg.com/leaflet@1.6.0/dist/leaflet.css" rel="stylesheet"/>
+        <link rel="stylesheet" href="https://cdn.datatables.net/2.3.1/css/dataTables.dataTables.css" />
     </head>
     <body>
         <div id="main-div">
-            <div id="map">
-
-            </div>
-
-            <div id="line-select-box" class="gradient-border">
-                <span class="text">Select your line:</span>
-                <form method="GET" action="index.php">
-                    <select name="line-select" id="line-select" class="text large bold special">
-                        <option value="volvo">11</option>
-                        <option value="saab">86</option>
-                        <option value="mercedes">12</option>
-                        <option value="audi">542</option>
-                    </select>
-                </form>
-            </div>
+            <div id="map"></div>
 
             <div id="stats">
-                <div id="stats-table">
+                <div id="line-select-div">
+                    <table id="line-table">
+                        <thead>
+                            <tr>
 
+                            </tr>
+                        </thead>
+                        <tbody id="table-body"></tbody>
+                    </table>
                 </div>
                 
                 <div id="stats-chart">
@@ -49,6 +43,7 @@
         <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.2.7/vfs_fonts.js"></script>
 
         <script src="https://unpkg.com/leaflet@1.6.0/dist/leaflet.js"></script>
+        <script src="https://cdn.datatables.net/2.3.1/js/dataTables.js"></script>
 
         <script src="assets/scripts.js"></script>
     </body>
