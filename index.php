@@ -12,24 +12,18 @@
     </head>
     <body>
         <div id="main-div">
+            
+            <div id="stats">
+                <div id="header">
+                    <span class="text xlarge bold special no-select">FindMyBus</span>
+                </div>
+
+                <div id="line-select" class="no-select"></div>
+                
+            </div>
             <div id="map"></div>
 
-            <div id="stats">
-                <div id="line-select-div">
-                    <table id="line-table">
-                        <thead>
-                            <tr>
-
-                            </tr>
-                        </thead>
-                        <tbody id="table-body"></tbody>
-                    </table>
-                </div>
-                
-                <div id="stats-chart">
-
-                </div>
-            </div>
+            <span class="SLIDE FROM RIGHT">
         </div>
 
 

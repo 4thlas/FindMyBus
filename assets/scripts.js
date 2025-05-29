@@ -40,11 +40,9 @@ $(document).ready(async function(){
         let table = $("#table-body");
 
         lines_data.forEach(line => {
-            select.append('<option value="'+ line.number +'">'+ line.number +'</option>');
+            select.append(`<a class="text special line-number-grid-box" id="${line.number}"> ${line.number} </a>`);
         });
     }
-
-    $("#line-select").change(function(){$("#line-select-form").submit();});
 
 
     let lines = await getLinesInfo();
@@ -56,6 +54,8 @@ $(document).ready(async function(){
     console.log(vehicles);
 
     setup(lines);
+
+    $(".line-number-grid-box").click(function(){window.location.replace(`?id=${this.id}`);})
     
     const map = L.map('map').setView([53.428, 14.552], 13);
 
