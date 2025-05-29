@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html>
+<html class="dark">
     <head>
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <link rel="stylesheet" href="assets/styles.css">
@@ -15,18 +15,15 @@
             <div id="map"></div>
 
             <div id="stats">
-                <div id="line-select-div">
-                    <table id="line-table">
+                <div id="stats-table-div">
+                    <table id="stats-table" class="display stripe hover compact">
                         <thead>
-                            <tr>
-
-                            </tr>
                         </thead>
                         <tbody id="table-body"></tbody>
                     </table>
                 </div>
                 
-                <div id="stats-chart">
+                <div id="stats-chart-div">
 
                 </div>
             </div>
@@ -44,6 +41,7 @@
 
         <script src="https://unpkg.com/leaflet@1.6.0/dist/leaflet.js"></script>
         <script src="https://cdn.datatables.net/2.3.1/js/dataTables.js"></script>
+        <script src="https://cdn.datatables.net/plug-ins/2.3.1/features/scrollResize/dataTables.scrollResize.min.js"></script>
 
         <script src="assets/scripts.js"></script>
     </body>

@@ -40,12 +40,13 @@ $(document).ready(async function(){
         let table = $("#table-body");
 
         lines_data.forEach(line => {
-            select.append('<option value="'+ line.number +'">'+ line.number +'</option>');
+            select.append(`<option value="${line.number}">${line.number}</option>`);
+            //table.append(`<tr class="line-select-row" id="${line.number}"><td>${line.number}</td><td>${line.vehicle_type}</td><td>${line.type}</td></tr>`);
         });
     }
 
     $("#line-select").change(function(){$("#line-select-form").submit();});
-
+    
 
     let lines = await getLinesInfo();
     let vehicles = await getVehiclesInfo();
@@ -63,5 +64,14 @@ $(document).ready(async function(){
         attribution: '&copy; OpenStreetMap contributors',
         maxZoom: 19,
     }).addTo(map);
+
+    // $('#line-table').DataTable({
+    //     searching: true,
+    //     ordering: true,
+    // });
+
+    $(".line-select-row").click(function(){
+        window.location.replace(`?id=${this.id}`);
+    });
     
 });
