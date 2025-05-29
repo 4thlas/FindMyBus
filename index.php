@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html>
+<html class="dark">
     <head>
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <link rel="stylesheet" href="assets/styles.css">
@@ -38,6 +38,7 @@
 
         <script src="https://unpkg.com/leaflet@1.6.0/dist/leaflet.js"></script>
         <script src="https://cdn.datatables.net/2.3.1/js/dataTables.js"></script>
+        <script src="https://cdn.datatables.net/plug-ins/2.3.1/features/scrollResize/dataTables.scrollResize.min.js"></script>
 
         <script src="assets/scripts.js"></script>
     </body>

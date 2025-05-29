@@ -63,5 +63,14 @@ $(document).ready(async function(){
         attribution: '&copy; OpenStreetMap contributors',
         maxZoom: 19,
     }).addTo(map);
+
+    // $('#line-table').DataTable({
+    //     searching: true,
+    //     ordering: true,
+    // });
+
+    $(".line-select-row").click(function(){
+        window.location.replace(`?id=${this.id}`);
+    });
     
 });
