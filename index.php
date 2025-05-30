@@ -11,11 +11,15 @@
         <link rel="stylesheet" href="https://cdn.datatables.net/2.3.1/css/dataTables.dataTables.css" />
     </head>
     <body>
+        <?php
+            if (isset($_GET["line"]) && $_GET["line"] != "") $selected_line = $_GET["line"];
+            else $selected_line = null;
+        ?>
         <div id="main-div">
             
-            <div class="menu" id="line-menu">
-                <div id="header">
-                    <span class="text xlarge bold special no-select" id="test">FindMyBus</span>
+            <div class="menu">
+                <div class="header">
+                    <span class="text xlarge bold special no-select">FindMyBus</span>
                 </div>
 
                 <div id="line-select" class="no-select"></div>
@@ -23,16 +27,56 @@
             </div>
             <div id="map"></div>
 
-            <div class="menu" id="stats-menu">
-                <span class="text white">Lorem Ipsum sir dolor amet.</span>
-                <span class="text white">Lorem Ipsum sir dolor amet.</span>
-                <span class="text white">Lorem Ipsum sir dolor amet.</span>
-                <span class="text white">Lorem Ipsum sir dolor amet.</span>
-                <span class="text white">Lorem Ipsum sir dolor amet.</span>
-                <span class="text white">Lorem Ipsum sir dolor amet.</span>
-                <span class="text white">Lorem Ipsum sir dolor amet.</span>
-                <span class="text white">Lorem Ipsum sir dolor amet.</span>
-                <span class="text white">Lorem Ipsum sir dolor amet.</span>
+            <div class="menu">
+                <div class="header">
+                    <span class="text small no-select">Line</span>
+                    <span class="text xlarge bold special no-select"><?php echo $selected_line?></span>
+                </div>
+                
+                <div id="stats">
+                    <div class="header sub">
+                        <span class="text large bold no-select">General Info</span>
+                    </div>
+                    <div class="stats-container">
+                        <ul>
+                            <li><div class="space-between">
+                                <span class="text">Type: </span><span id="line-type-display" class="text bold"></span>
+                            </div><hr></li>
+
+                            <li><div class="space-between">
+                                <span class="text">Subtype: </span><span id="line-subtype-display"class="text bold"></span>
+                            </div><hr></li>
+
+                            <li><div class="space-between">
+                                <span class="text">Vehicles type: </span><span id="line-veh-type-display" class="text bold"></span>
+                            </div></li>
+                        </ul>
+                        
+                    </div>
+
+                    <div class="header sub" style="margin-top: 30px">
+                        <span class="text large bold no-select">Active Vehicles</span>
+                    </div>
+
+                    <div class="stats-container">
+                        <ul>
+                            <li><div class="space-between">
+                                <span class="text">Type: </span><span class="text bold">Night</span>
+                            </div><hr></li>
+
+                            <li><div class="space-between">
+                                <span class="text">Subtype: </span><span class="text bold">Normal</span>
+                            </div><hr></li>
+
+                            <li><div class="space-between">
+                                <span class="text">Vehicles type: </span><span class="text bold">Bus</span>
+                            </div></li>
+                        </ul>
+                    </div>
+
+                    <div class="stats-container">
+                    </div>
+                </div>
             </div>
         </div>
 
