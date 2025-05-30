@@ -13,9 +13,9 @@
     <body>
         <div id="main-div">
             
-            <div id="stats">
+            <div class="menu" id="line-menu">
                 <div id="header">
-                    <span class="text xlarge bold special no-select">FindMyBus</span>
+                    <span class="text xlarge bold special no-select" id="test">FindMyBus</span>
                 </div>
 
                 <div id="line-select" class="no-select"></div>
@@ -23,7 +23,17 @@
             </div>
             <div id="map"></div>
 
-            <span class="SLIDE FROM RIGHT">
+            <div class="menu" id="stats-menu">
+                <span class="text white">Lorem Ipsum sir dolor amet.</span>
+                <span class="text white">Lorem Ipsum sir dolor amet.</span>
+                <span class="text white">Lorem Ipsum sir dolor amet.</span>
+                <span class="text white">Lorem Ipsum sir dolor amet.</span>
+                <span class="text white">Lorem Ipsum sir dolor amet.</span>
+                <span class="text white">Lorem Ipsum sir dolor amet.</span>
+                <span class="text white">Lorem Ipsum sir dolor amet.</span>
+                <span class="text white">Lorem Ipsum sir dolor amet.</span>
+                <span class="text white">Lorem Ipsum sir dolor amet.</span>
+            </div>
         </div>
 
 

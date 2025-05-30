@@ -64,6 +64,10 @@ $(document).ready(async function(){
         maxZoom: 19,
     }).addTo(map);
 
+    $("#test").click(function(){
+        $("#stats-menu").toggleClass("closed")
+    });
+
     // $('#line-table').DataTable({
     //     searching: true,
     //     ordering: true,
