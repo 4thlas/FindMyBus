@@ -40,38 +40,38 @@
                     <div class="stats-container">
                         <ul>
                             <li><div class="space-between">
-                                <span class="text">Type: </span><span id="line-type-display" class="text bold"></span>
+                                <span class="text">Type: </span><span id="line-type-display" class="text bold upper"></span>
                             </div><hr></li>
 
                             <li><div class="space-between">
-                                <span class="text">Subtype: </span><span id="line-subtype-display"class="text bold"></span>
+                                <span class="text">Subtype: </span><span id="line-subtype-display"class="text bold upper"></span>
                             </div><hr></li>
 
                             <li><div class="space-between">
-                                <span class="text">Vehicles type: </span><span id="line-veh-type-display" class="text bold"></span>
+                                <span class="text">Vehicles type: </span><span id="line-veh-type-display" class="text bold upper"></span>
                             </div></li>
                         </ul>
-                        
                     </div>
-
+                    
                     <div class="header sub" style="margin-top: 30px">
                         <span class="text large bold no-select">Active Vehicles</span>
                     </div>
 
                     <div class="stats-container">
-                        <ul>
-                            <li><div class="space-between">
-                                <span class="text">Type: </span><span class="text bold">Night</span>
-                            </div><hr></li>
-
-                            <li><div class="space-between">
-                                <span class="text">Subtype: </span><span class="text bold">Normal</span>
-                            </div><hr></li>
-
-                            <li><div class="space-between">
-                                <span class="text">Vehicles type: </span><span class="text bold">Bus</span>
-                            </div></li>
-                        </ul>
+                        <div style="color: white">
+                            <table id="vehicle-table" class="stripe">
+                                <thead class="text small special">
+                                <tr>
+                                    <th>ID</th>
+                                    <th>MODEL</th>
+                                    <th>NEXT STOP</th>
+                                    <th>PUNCTUALITY</th>
+                                </tr>
+                                </thead>
+                                <tbody id="vehicle-table-body">
+                                </tbody>
+                            </table>
+                        </div>
                     </div>
 
                     <div class="stats-container">
