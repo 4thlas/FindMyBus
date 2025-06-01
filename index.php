@@ -75,6 +75,7 @@
                     </div>
 
                     <div class="stats-container">
+                        <canvas id="vehicle-chart" width="400" height="200"></canvas>
                     </div>
                 </div>
             </div>

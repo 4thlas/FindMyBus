@@ -36,13 +36,18 @@ $(document).ready(async function(){
             let all_vehicles = await response.json();
             all_vehicles = all_vehicles.data;
             let matching_vehicles = [];
+            let vehicles_models = [];
 
             if (wanted_line)
             {
                 all_vehicles.forEach(vehicle => {
                     if (vehicle.line_number == wanted_line)
+                    {
                         matching_vehicles.push(vehicle);
+                        vehicles_models["models"].push(vehicle.model);
+                    }
                 });
+
                 return matching_vehicles;
             }
             else return all_vehicles;
@@ -51,6 +56,15 @@ $(document).ready(async function(){
         {
             console.error(error);
             return 1;
+        }
+    }
+
+    function countOccurs(array){
+        let result = [];
+
+        for(let i = 0; i < array.length; i++)
+        {
+            // TODO
         }
     }
 
@@ -105,6 +119,13 @@ $(document).ready(async function(){
         // printVehiclesChart(vehicles);
     }
 
+    const map = L.map('map').setView([53.428, 14.552], 13);
+
+    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+        attribution: '&copy; OpenStreetMap contributors',
+        maxZoom: 19,
+    }).addTo(map);
+
     const queryString = window.location.search;
     const urlParams = new URLSearchParams(queryString);
     const selected_line_nr = urlParams.get('line');
@@ -117,33 +138,72 @@ $(document).ready(async function(){
     console.log(all_lines);
     console.log(line_vehicles);
 
-    printLineSelectGrid(all_lines);
-    printGenInfo(selected_line);
-
-    $(".line-number-grid-box").click(function(){window.location.replace(`?line=${this.id}`);})
-
-
     var vehicles_table = $("#vehicle-table").DataTable({
         paging: false,
+        info: false,
         searching: false,
         ordering: true
     });
 
-    const map = L.map('map').setView([53.428, 14.552], 13);
+    const ctx = document.getElementById('vehicle-chart').getContext('2d');
 
-    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-        attribution: '&copy; OpenStreetMap contributors',
-        maxZoom: 19,
-    }).addTo(map);
+    const canvas = document.getElementById('vehicle-chart');
+    
+    const chart_column_gradient = ctx.createLinearGradient(0, 0, 0, canvas.height);
+    chart_column_gradient.addColorStop(0, '#08071a');
+    chart_column_gradient.addColorStop(1, '#111136');
 
-    $(".line-select-row").click(function(){
-        window.location.replace(`?id=${this.id}`);
+    const chart_border_gradient = ctx.createLinearGradient(0, 0, 0, canvas.height);
+    chart_border_gradient.addColorStop(0, '#ff3300');
+    chart_border_gradient.addColorStop(1, '#ffd000');
+
+    const vehicle_chart = new Chart(ctx, {
+        type: 'bar',
+        data: {
+            labels: ['Red', 'Blue', 'Yellow', 'Green', 'Purple', 'Orange'],
+            datasets: [{
+                label: 'Votes',
+                data: [12, 19, 3, 5, 2, 3],
+                backgroundColor: chart_column_gradient,
+                borderColor: chart_border_gradient,
+                borderWidth: 3
+                
+            }]
+        },
+        options: {
+            responsive: true,
+            scales: {
+                y: {
+                    beginAtZero: true,
+                    ticks: {
+                        color: '#ffffff' // red text for X axis labels
+                    },
+                    grid: {
+                        color: '#8b8b8b' // 🔴 vertical grid lines (x-axis)
+                    }
+                },
+                x: {
+                    ticks: {
+                        color: '#ffffff'
+                    },
+                }
+            }
+        }
     });
 
+    printLineSelectGrid(all_lines);
+    printGenInfo(selected_line);
 
+    updateDisplay(line_vehicles);
     setInterval(async function(){
         line_vehicles = await getVehiclesInfo(selected_line_nr);
         selected_line = await getLinesInfo(selected_line_nr);
         updateDisplay(line_vehicles);
     }, 5000);
+
+    $(".line-select-row").click(function(){
+        window.location.replace(`?id=${this.id}`);
+    });
+
+    $(".line-number-grid-box").click(function(){window.location.replace(`?line=${this.id}`);})
 });
