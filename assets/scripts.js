@@ -40,16 +40,18 @@ $(document).ready(async function(){
             let vehicles_models_raw = []; // Array of vehicle models
             let vehicles_models = []; // Assoc array: vehicle_model => number
 
+            let result = [];
+
             all_vehicles.forEach(vehicle => {
                 if (wanted_line != null && vehicle.line_number == wanted_line)
                 {
                     matching_vehicles.push(vehicle);
-                    vehicles_models_raw.push(vehicle.vehicle_model); // Add model to list
+                    vehicles_models_raw.push(vehicle.vehicle_model == null ? "Other" : vehicle.vehicle_model); // Add model to list
                     vehicles_models[vehicle.vehicle_model] = 0;
                 }
                 else if (wanted_line == null)
                 {
-                    vehicles_models_raw.push(vehicle.vehicle_model); // Add model to list
+                    vehicles_models_raw.push(vehicle.vehicle_model == null ? "Other" : vehicle.vehicle_model); // Add model to list
                     vehicles_models[vehicle.vehicle_model] = 0;
                 }
             });
@@ -60,12 +62,18 @@ $(document).ready(async function(){
                 vehicles_models[model_key] = countOccurs(vehicles_models_raw, model_key);
             }
 
-            console.log(vehicles_models);
-
             if (wanted_line)
-                return matching_vehicles;
+            {
+                result.vehicles = matching_vehicles;
+                result.models = vehicles_models;
+            }
             else
-                return all_vehicles;
+            {
+                result.vehicles = all_vehicles;
+                result.models = vehicles_models;
+            }
+
+            return result;
         }
         catch(error)
         {
@@ -148,24 +156,44 @@ $(document).ready(async function(){
         // printVehiclesChart(vehicles);
     }
 
-    const map = L.map('map').setView([53.428, 14.552], 13);
+    function updateMarker(action, name, coords)
+    {
+        switch(action)
+        {
+            case "add":
+                {
+                    const marker = L.marker(item.coords).addTo(map);
+                    marker.bindPopup(`<strong>${item.name}</strong>`);
+                    markersArray.push(marker);
+                }
+        }
+    }
 
-    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-        attribution: '&copy; OpenStreetMap contributors',
-        maxZoom: 19,
-    }).addTo(map);
+    
 
     const queryString = window.location.search;
     const urlParams = new URLSearchParams(queryString);
     const selected_line_nr = urlParams.get('line');
 
     var all_lines = await getLinesInfo();
-    var line_vehicles = await getVehiclesInfo(selected_line_nr);
     var selected_line = await getLinesInfo(selected_line_nr);
 
-    console.log(selected_line);
-    console.log(all_lines);
-    console.log(line_vehicles);
+    var vehicles_fetch_data = await getVehiclesInfo(selected_line_nr);
+    var vehicles = vehicles_fetch_data.vehicles;
+    var models = vehicles_fetch_data.models;
+
+    const vehicle_markers = [];
+    console.log(vehicles);
+
+    // console.log(selected_line);
+    // console.log(all_lines);
+    // console.log(line_vehicles);
+
+    const map = L.map('map').setView([53.428, 14.552], 13);
+    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+        attribution: '&copy; OpenStreetMap contributors',
+        maxZoom: 19,
+    }).addTo(map);
 
     var vehicles_table = $("#vehicle-table").DataTable({
         paging: false,
@@ -189,10 +217,10 @@ $(document).ready(async function(){
     const vehicle_chart = new Chart(ctx, {
         type: 'bar',
         data: {
-            labels: ['Red', 'Blue', 'Yellow', 'Green', 'Purple', 'Orange'],
+            labels: Object.keys(models),
             datasets: [{
-                label: 'Votes',
-                data: [12, 19, 3, 5, 2, 3],
+                label: 'Number of vehicles',
+                data: Object.values(models),
                 backgroundColor: chart_column_gradient,
                 borderColor: chart_border_gradient,
                 borderWidth: 3
@@ -205,10 +233,10 @@ $(document).ready(async function(){
                 y: {
                     beginAtZero: true,
                     ticks: {
-                        color: '#ffffff' // red text for X axis labels
+                        color: '#ffffff'
                     },
                     grid: {
-                        color: '#8b8b8b' // 🔴 vertical grid lines (x-axis)
+                        color: '#8b8b8b'
                     }
                 },
                 x: {
@@ -223,12 +251,14 @@ $(document).ready(async function(){
     printLineSelectGrid(all_lines);
     printGenInfo(selected_line);
 
-    updateDisplay(line_vehicles);
-    setInterval(async function(){
-        line_vehicles = await getVehiclesInfo(selected_line_nr);
+    updateDisplay(vehicles);
+    setInterval(async function()
+    {
+        vehicles_fetch_data = await getVehiclesInfo(selected_line_nr);
+        vehicles = vehicles_fetch_data.vehicles;
         selected_line = await getLinesInfo(selected_line_nr);
-        updateDisplay(line_vehicles);
-    }, 5000);
+        updateDisplay(vehicles);
+    }, 3000);
 
     $(".line-select-row").click(function(){
         window.location.replace(`?id=${this.id}`);
