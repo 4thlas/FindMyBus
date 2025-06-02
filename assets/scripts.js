@@ -63,15 +63,9 @@ $(document).ready(async function(){
             console.log(vehicles_models);
 
             if (wanted_line)
-            {
                 return matching_vehicles;
-            }
             else
-            {
-                
-
                 return all_vehicles;
-            }
         }
         catch(error)
         {
