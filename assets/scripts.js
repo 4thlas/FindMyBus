@@ -35,22 +35,43 @@ $(document).ready(async function(){
 
             let all_vehicles = await response.json();
             all_vehicles = all_vehicles.data;
-            let matching_vehicles = [];
-            let vehicles_models = [];
+
+            let matching_vehicles = []; // Array of vehicles of wanted_line
+            let vehicles_models_raw = []; // Array of vehicle models
+            let vehicles_models = []; // Assoc array: vehicle_model => number
+
+            all_vehicles.forEach(vehicle => {
+                if (wanted_line != null && vehicle.line_number == wanted_line)
+                {
+                    matching_vehicles.push(vehicle);
+                    vehicles_models_raw.push(vehicle.vehicle_model); // Add model to list
+                    vehicles_models[vehicle.vehicle_model] = 0;
+                }
+                else if (wanted_line == null)
+                {
+                    vehicles_models_raw.push(vehicle.vehicle_model); // Add model to list
+                    vehicles_models[vehicle.vehicle_model] = 0;
+                }
+            });
+            
+            // Model counting
+            for (const model_key of Object.keys(vehicles_models))
+            {
+                vehicles_models[model_key] = countOccurs(vehicles_models_raw, model_key);
+            }
+
+            console.log(vehicles_models);
 
             if (wanted_line)
             {
-                all_vehicles.forEach(vehicle => {
-                    if (vehicle.line_number == wanted_line)
-                    {
-                        matching_vehicles.push(vehicle);
-                        vehicles_models["models"].push(vehicle.model);
-                    }
-                });
-
                 return matching_vehicles;
             }
-            else return all_vehicles;
+            else
+            {
+                
+
+                return all_vehicles;
+            }
         }
         catch(error)
         {
@@ -59,13 +80,27 @@ $(document).ready(async function(){
         }
     }
 
-    function countOccurs(array){
+    // Count array's each value occurences 
+    function countOccurs(array, req_val = null)
+    {
         let result = [];
 
         for(let i = 0; i < array.length; i++)
         {
-            // TODO
+            if(result.includes(array[i]))
+                continue;
+
+            let occurences = 0;
+            for(let j = 0; j < array.length; j++)
+            {
+                if(array[j] == array[i])
+                    occurences++;
+            }
+
+            result[array[i]] = occurences;
         }
+        if (req_val != null) return result[req_val];
+        else return result;
     }
 
     // Print line select menu
