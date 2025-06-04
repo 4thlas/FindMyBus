@@ -149,24 +149,53 @@ $(document).ready(async function(){
 
     }
 
-    // Update displayed line and vehicle info
+
+    // Map markers menaging
+    function addMarker(id, coords, name = "", comment = "")
+    {
+        const marker = L.marker(coords).addTo(map);
+        marker.bindPopup(`<strong>${name} - ${comment}</strong>`);
+        marker.id = id;
+        vehicle_markers.push(marker);
+    }
+
+    function updateMarker(id, coords)
+    {
+        const marker = vehicle_markers.find(m => m.id == id)
+        
+        if (marker)
+        {
+            marker.setLatLng(coords);
+            return 0;
+        }
+        else return 1
+    }
+
+    function delMarker(id)
+    {
+        const arr_id = vehicle_markers.findIndex(marker => marker.id == id);
+        if (arr_id !== -1)
+        {
+            vehicle_markers[arr_id].remove();
+            vehicle_markers.splice(arr_id, 1);
+        }
+    }
+
+    // Update displayed lines and vehicles info
     function updateDisplay(vehicles)
     {
         printVehiclesTable(vehicles);
-        // printVehiclesChart(vehicles);
-    }
+        printVehiclesChart(vehicles);
 
-    function updateMarker(action, name, coords)
-    {
-        switch(action)
-        {
-            case "add":
-                {
-                    const marker = L.marker(item.coords).addTo(map);
-                    marker.bindPopup(`<strong>${item.name}</strong>`);
-                    markersArray.push(marker);
-                }
-        }
+        // Update markers
+        vehicle_markers.forEach(marker => {
+            const vehicle = vehicles.find(v => v.vehicle_id == marker.id);
+            if (vehicle)
+                updateMarker(vehicle.vehicle_id, [vehicle.latitude, vehicle.longitude]);
+            else
+                delMarker(vehicle.vehicle_id);
+
+        });
     }
 
     
@@ -182,7 +211,7 @@ $(document).ready(async function(){
     var vehicles = vehicles_fetch_data.vehicles;
     var models = vehicles_fetch_data.models;
 
-    const vehicle_markers = [];
+    var vehicle_markers = [];
     console.log(vehicles);
 
     // console.log(selected_line);
@@ -248,17 +277,25 @@ $(document).ready(async function(){
         }
     });
 
+    // Initialization
+
     printLineSelectGrid(all_lines);
     printGenInfo(selected_line);
 
-    updateDisplay(vehicles);
+    printVehiclesTable(vehicles);
+    printVehiclesChart(vehicles);
+
+    vehicles.forEach(vehicle => {
+        addMarker(vehicle.vehicle_id, [vehicle.latitude, vehicle.longitude], vehicle.vehicle_id, vehicle.vehicle_model);
+    });
+
     setInterval(async function()
     {
         vehicles_fetch_data = await getVehiclesInfo(selected_line_nr);
         vehicles = vehicles_fetch_data.vehicles;
         selected_line = await getLinesInfo(selected_line_nr);
         updateDisplay(vehicles);
-    }, 3000);
+    }, 2000);
 
     $(".line-select-row").click(function(){
         window.location.replace(`?id=${this.id}`);
