@@ -1,3 +1,3 @@
 # FindMyBus
 
-Frontend + PHP + API practice
+Frontend + API handling practice
